@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ArticleDao">
+    <insert id="insert" parameterType="Article">
+     insert into  article values (#{id},#{title},#{imgPath},#{content},#{publishDate},#{guru_id})
+    </insert>
+
+    <update id="update" parameterType="Article">
+        update guru set name=#{title},imgPath=#{imgPath},content=#{content},publishDate=#{publishDate}
+        where id=#{id}
+    </update>
+   <delete id="delete">
+       delete from  article where id=#{id}
+   </delete>
+  <!--  <resultMap id="art" type="Article">
+        <id property="id" column="aid"/>
+        <result property="title" column="title"/>
+        <result property="imgPath" column="imgPath"/>
+        <result property="content" column="con"/>
+        <result property="publishDate" column="pub"/>
+
+        <association property="guru" javaType="Guru">
+                <id property="id" column="bid"/>
+                <result property="name" column="name"/>
+        </association>
+    </resultMap>-->
+    <select id="queryByPage" resultType="Article">
+       select id ,title,imgPath,content,publishDate,guru_id
+       from article
+        limit #{start},#{rows}
+    </select>
+    <select id="queryTotal" resultType="Long">
+        select count(id) from article
+    </select>
+    <select id="queryById" resultType="Article">
+        select id,title,imgPath,content,publishDate,guru_id from  article where id=#{id}
+    </select>
+    <select id="queryAllName" resultType="Article">
+        select id,title from article
+    </select>
+    <delete id="deleteAll">
+        delete from article where  id in
+        <foreach collection="array"  open="(" item="item" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

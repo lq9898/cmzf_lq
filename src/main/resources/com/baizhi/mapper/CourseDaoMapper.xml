@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.CourseDao">
+    <insert id="insert" parameterType="Course">
+    insert into course values (#{id},#{title},#{flag},#{createDate})
+    </insert>
+   <delete id="delete">
+       delete from  course where id=#{id}
+   </delete>
+   <select id="queryByPage" resultType="Course">
+       select id,title,flag,createDate from course
+        where flag not in ('X')
+       limit #{start},#{rows}
+   </select>
+    <select id="queryTotal" resultType="long">
+        select count(id) from course
+    </select>
+    <delete id="deleteAll">
+        delete from course where  id in
+        <foreach collection="array"  open="(" item="item" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <select id="queryAllUserCourse" resultType="Course">
+          select id,title,flag,createDate from course
+          where flag not in ('Y')
+          limit #{start},#{rows}
+    </select>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.GuruDao">
+    <insert id="insert" parameterType="Guru">
+     insert into  guru values (#{id},#{name},#{headPic},#{sex})
+    </insert>
+
+    <update id="update" parameterType="Guru">
+        update guru set name=#{name},headPic=#{headPic},sex=#{sex}
+        where id=#{id}
+    </update>
+   <delete id="delete">
+       delete from  guru where id=#{id}
+   </delete>
+    <select id="queryByPage" resultType="Guru">
+        select id,name,headPic,sex from guru
+        limit #{start},#{rows}
+    </select>
+    <select id="queryTotal" resultType="Long">
+        select count(id) from guru
+    </select>
+    <select id="queryById" resultType="Guru">
+        select id,name,headPic,sex from  guru where id=#{id}
+    </select>
+    <select id="queryAllName" resultType="Guru">
+        select id,name from guru
+    </select>
+    <delete id="deleteAll">
+        delete from guru where  id in
+        <foreach collection="array"  open="(" item="item" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

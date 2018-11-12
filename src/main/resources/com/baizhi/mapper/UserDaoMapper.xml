@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDao">
+    <insert id="insert" parameterType="User">
+     insert into  t_user values
+     (#{id},#{username},#{phoneNum},#{password},#{nickName},#{headPic},#{sex},#{sign},#{salt},
+     #{province},#{city},#{status},#{date})
+    </insert>
+    <select id="queryByPage" resultType="User">
+        select id,username,phoneNum,password,nickName,headPic,sex,sign,salt,province,city,status,date
+        from t_user
+         where status not in ('F')
+        limit #{start},#{rows}
+
+
+    </select>
+  <select id="queryNameByPwd" resultType="User">
+      select id,username,password,status,phoneNum,sex,salt,province,city,nickName,sign,headPic,date from t_user
+      where username=#{username} and password=#{password}
+  </select>
+    <update id="update" parameterType="User">
+        update t_user set username=#{adminName},password=#{password},status=#{status}
+        where id=#{id}
+    </update>
+
+    <update id="updatePwd" >
+        update  t_user set password=#{password}
+        where id=#{id}
+    </update>
+    <select id="queryById" resultType="User">
+        select id,username,phoneNum,password,nickName,headPic,sex,sign,salt,province,city,status,date from t_user where id=#{id}
+    </select>
+
+    <select id="queryTotal" resultType="Long">
+        select count(id) from  t_user
+    </select>
+    <update id="updateStatus">
+       update t_user set status=#{status} where id=#{id}
+    </update>
+  </mapper>
